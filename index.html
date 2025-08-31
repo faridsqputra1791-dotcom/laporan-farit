@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📊 Dashboard Laporan Kerja</title>
+  <style>
+    :root {
+      --blue:#1f6feb;
+      --blue-dark:#1557c7;
+      --muted:#6b7280;
+      --bg: linear-gradient(135deg, #dbeafe, #f8fafc);
+      --card:rgba(255,255,255,0.75);
+      --radius:16px;
+      --shadow:0 8px 24px rgba(0,0,0,0.12);
+    }
+    * {
+      box-sizing:border-box;
+    }
+    body {
+      margin:0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      padding:24px;
+      color:#1f2937;
+    }
+    header {
+      width:100%;
+      max-width:1100px;
+      background:linear-gradient(90deg,var(--blue),var(--blue-dark));
+      color:white;
+      padding:20px 28px;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      animation:slideDown 0.8s ease;
+    }
+    @keyframes slideDown {
+      from {transform:translateY(-40px);opacity:0;}
+      to {transform:translateY(0);opacity:1;}
+    }
+    header .brand {
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    header .logo {
+      background:white;
+      color:var(--blue-dark);
+      font-weight:700;
+      width:48px;height:48px;
+      border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:18px;
+      box-shadow:0 3px 8px rgba(0,0,0,0.15);
+    }
+    header h1 {
+      margin:0;font-size:22px;font-weight:600;
+    }
+    header p {
+      margin:0;
+      font-size:13px;
+      opacity:0.9;
+    }
+
+    .menu {
+      display:flex;
+      gap:14px;
+      margin:26px auto;
+      flex-wrap:wrap;
+      justify-content:center;
+      max-width:1100px;
+    }
+    .menu button {
+      padding:12px 20px;
+      border-radius:12px;
+      border:none;
+      cursor:pointer;
+      background:var(--card);
+      backdrop-filter: blur(10px);
+      box-shadow:var(--shadow);
+      font-weight:600;
+      transition:all 0.35s;
+      font-size:15px;
+      color:#374151;
+    }
+    .menu button:hover { 
+      background:#f0f7ff; 
+      transform:translateY(-3px) scale(1.02);
+    }
+    .menu button.active {
+      background:var(--blue);
+      color:white;
+      transform:scale(1.05);
+    }
+
+    iframe {
+      width:100%;
+      max-width:1100px;
+      height:620px;
+      border:none;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      background:white;
+      margin-bottom:40px;
+      transition:opacity 0.6s ease;
+    }
+    iframe.fade-out { opacity:0; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">LK</div>
+      <div>
+        <h1>Dashboard Laporan Kerja</h1>
+        <p>Monitoring Harian • BBM • BAPP</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="menu">
+    <button class="active" onclick="gantiSheet(1)">📅 Harian</button>
+    <button onclick="gantiSheet(2)">⛽ Laporan BBM</button>
+    <button onclick="gantiSheet(3)">📑 Laporan BAPP</button>
+    <button onclick="gantiSheet(4)">📊 Laporan Mingguan</button>
+    <button onclick="gantiSheet(5)">🗓️ Bulanan</button>
+  </div>
+
+  <iframe id="sheetFrame" 
+    src="https://docs.google.com/spreadsheets/d/ID_SHEET_HARIAN/preview">
+  </iframe>
+
+  <script>
+    function gantiSheet(no) {
+      let frame = document.getElementById("sheetFrame");
+      let buttons = document.querySelectorAll(".menu button");
+
+      // reset active
+      buttons.forEach(btn => btn.classList.remove("active"));
+      buttons[no-1].classList.add("active");
+
+      // link sesuai menu
+      let link = "";
+      if(no===1){
+        link="https://docs.google.com/spreadsheets/d/ID_SHEET_HARIAN/preview";
+      } else if(no===2){
+        link="https://docs.google.com/spreadsheets/d/ID_SHEET_BBM/preview";
+      } else if(no===3){
+        link="https://docs.google.com/spreadsheets/d/ID_SHEET_BAPP/preview";
+      } else if(no===4){
+        link="https://docs.google.com/spreadsheets/d/ID_SHEET_MINGGUAN/preview";
+      } else if(no===5){
+        link="https://docs.google.com/spreadsheets/d/1sI1bArKYsyY-60PFDZPhZdMFAyhuzMM8Ypv3M-tRVEI/edit?gid=0#gid=0";
+      }
+
+      // animasi fade out > ganti > fade in
+      frame.classList.add("fade-out");
+      setTimeout(()=>{
+        frame.src=link;
+        frame.classList.remove("fade-out");
+      },600);
+    }
+  </script>
+</body>
+</html>
